@@ -8,13 +8,15 @@ const JWT_SECRET = process.env.JWT_SECRET || "jaschamp123@!231@%$@123";
 export const createUser = async (req: FastifyRequest, reply: FastifyReply) => {
   // POST create user
   try {
-    const { name, email } = req.body as { name: string; email: string };
+    const { name, email } = req.body as { 
+      name: string; email: string 
+    };
     const user = await User.create({ name, email });
     // generate token
     const token = jwt.sign(
       { id: user._id, email: user.email },
       JWT_SECRET,
-      { expiresIn: "1h" } //expire in 1 hr
+      //{ expiresIn: "1h" } //expire in 1 hr
     );
 
     reply.code(201).send({
