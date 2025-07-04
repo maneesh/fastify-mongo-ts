@@ -1,9 +1,10 @@
 import { FastifyPluginAsync } from 'fastify';
-import { createStaticData , getStaticData } from '../controllers/staticDataController';
+import { createStaticData , getStaticData , getStaticDataByDomainAndPage} from '../controllers/staticDataController';
 
 const staticDataRoutes:FastifyPluginAsync = async (fastify) => {
   fastify.post('/StaticData' ,createStaticData);
   fastify.get('/AllStaticData' ,getStaticData);
+  fastify.get('/api/static', getStaticDataByDomainAndPage);
 }
 
 export default staticDataRoutes;

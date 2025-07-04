@@ -37,3 +37,36 @@ export const getStaticData = async (req: FastifyRequest, reply: FastifyReply) =>
     }
 
 }
+
+interface QueryParams {
+  domain?: string;
+  page?: string;
+}
+
+export const getStaticDataByDomainAndPage = async (
+  req: FastifyRequest<{ Querystring: QueryParams }>,
+  reply: FastifyReply
+) => {
+  const { domain, page } = req.query;
+
+  if (!domain || !page) {
+    return reply
+      .code(400)
+      .send({ error: 'Both domain and page query parameters are required' });
+  }
+
+  try {
+    const staticData = await StaticContent.findOne({ domain, page });
+
+    if (!staticData) {
+      return reply
+        .code(404)
+        .send({ error: 'No static content found for the given domain and page' });
+    }
+
+    reply.send(staticData);
+  } catch (error) {
+    console.error('Error fetching static data:', error);
+    reply.code(500).send({ error: 'Failed to get static data' });
+  }
+};
