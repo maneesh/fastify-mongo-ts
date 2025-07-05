@@ -25,26 +25,26 @@ async function seed() {
     console.log(`✅ Inserted ${users.length} users`);
 
     // Seed Static Content
-    const staticContents = await StaticContent.create({
-      domain: 'example.com',
-      page: 'home',
-      sections: [
-        {
-          name: 'Hero Section',
-          contents: [
-            { type: 'text', data: 'Welcome to our website!' },
-            { type: 'image', data: '/images/banner.png' },
-          ],
-        },
-        {
-          name: 'About Section',
-          contents: [
-            { type: 'text', data: 'We are a tech company.' },
-            { type: 'video', data: '/videos/about.mp4' },
-          ],
-        },
-      ],
-    });
+    // const staticContents = await StaticContent.create({
+    //   domain: 'example.com',
+    //   page: 'home',
+    //   sections: [
+    //     {
+    //       name: 'Hero Section',
+    //       contents: [
+    //         { type: 'text', data: 'Welcome to our website!' },
+    //         { type: 'image', data: '/images/banner.png' },
+    //       ],
+    //     },
+    //     {
+    //       name: 'About Section',
+    //       contents: [
+    //         { type: 'text', data: 'We are a tech company.' },
+    //         { type: 'video', data: '/videos/about.mp4' },
+    //       ],
+    //     },
+    //   ],
+    // });
 
     console.log('✅ Inserted static content');
     process.exit(0);
