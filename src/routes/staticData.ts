@@ -4,7 +4,7 @@ import { createStaticData , getStaticData , getStaticDataByDomainAndPage} from '
 const staticDataRoutes:FastifyPluginAsync = async (fastify) => {
   fastify.post('/StaticData' ,createStaticData);
   fastify.get('/AllStaticData' ,getStaticData);
-  fastify.get('/api/static', getStaticDataByDomainAndPage);
+  fastify.get('/static', getStaticDataByDomainAndPage);
 }
 
 export default staticDataRoutes;
