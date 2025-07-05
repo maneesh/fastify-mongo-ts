@@ -1,29 +1,43 @@
 import { FastifyRequest, FastifyReply } from "fastify";
 import StaticContent from '../models/StaticData';
 
-export const createStaticData = async (req: FastifyRequest, reply: FastifyReply) => {
-  // POST static data
+interface IContent {
+  type: 'text' | 'image' | 'video';
+  name: string;
+  data: string;
+}
+
+interface ISection {
+  name?: string;
+  contents: IContent[];
+}
+
+interface CreateStaticDataBody {
+  domain: string;
+  page: string;
+  sections: ISection[];
+}
+
+export const createStaticData = async (
+  req: FastifyRequest<{ Body: CreateStaticDataBody }>,
+  reply: FastifyReply
+) => {
   try {
-    const { domain ,page ,sections } = req.body as{
-        domain : string;
-        page: string;
-        sections : {
-            name ?: string;
-            contents: { type: 'text' | 'image' | 'video'; data :string }[];
-        }[];
-    }
+    const { domain, page, sections } = req.body;
+
     if (!domain || !page || !Array.isArray(sections)) {
       return reply.code(400).send({ error: 'Missing or invalid fields' });
     }
+
     const newStaticContent = await StaticContent.create({ domain, page, sections });
 
-    reply.code(200).send({
-        message:'Static content created successfully',
-        data: newStaticContent
-    })
-    }catch (error: any) {
-        console.log('error creating static content' ,error.message)
-    reply.code(500).send({ error: "Failed to create user" });
+    return reply.code(201).send({
+      message: 'Static content created successfully',
+      data: newStaticContent
+    });
+  } catch (error: any) {
+    console.error('Error creating static content:', error.message);
+    return reply.code(500).send({ error: 'Failed to create static content' });
   }
 };
 

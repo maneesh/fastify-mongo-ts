@@ -4,6 +4,7 @@ import mongoose, { Document, Model, Schema } from 'mongoose';
 
 interface IContent {
   type: 'text' | 'image' | 'video';
+  name: string;
   data: string;
 }
 
@@ -29,6 +30,9 @@ const ContentSchema: Schema<IContent> = new Schema({
     type: String,
     enum: ['text', 'image', 'video'],
     required: true
+  },
+  name: {
+    type: String,
   },
   data: {
     type: String,
