@@ -31,10 +31,10 @@ app.register(fastifyCors, {
 
 app.register(connectDB);
 app.register(
-    userRoutes, //{ prefix: '/api/v1' }
+    userRoutes, { prefix: '/api/' }
 );
 app.register(
-    staticDataRoutes, //{ prefix: '/api/v1' }
+    staticDataRoutes, { prefix: '/api/' }
 );
 
 export default app;
