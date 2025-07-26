@@ -2,6 +2,7 @@ import app from './app';
 
 const start = async () => {
   try {
+    // const port = Number(process.env.PORT_)
     const port = process.env.PORT_ ? Number(process.env.PORT_) : 3001;
     await app.listen({ port });
     console.log(`Server ready at http://localhost:${port}`);
