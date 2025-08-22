@@ -1,5 +1,4 @@
 import Fastify from 'fastify';
-import fastifyCors from "@fastify/cors";
 import dotenv from 'dotenv'
 import connectDB  from './plugins/db';
 import userRoutes from './routes/userRoutes';
@@ -32,10 +31,10 @@ app.register(cmsStaticContentRoutes);
 //   pluginTimeout: 10000
 // });
 
-app.register(fastifyCors, {
-  origin: true, 
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], 
-});
+// app.register(fastifyCors, {
+//   origin: true, 
+//   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], 
+// });
 
 
 // app.register(cors, { origin: true });
