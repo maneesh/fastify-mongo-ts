@@ -4,6 +4,7 @@ import dotenv from 'dotenv'
 import connectDB  from './plugins/db';
 import userRoutes from './routes/userRoutes';
 import staticDataRoutes from './routes/staticData';
+import mediaLibraryRoutes from './routes/mediaLibraryRoute';
 import cors from '@fastify/cors';
 
 dotenv.config();
@@ -33,8 +34,7 @@ app.register(connectDB);
 app.register(
     userRoutes, { prefix: '/api/' }
 );
-app.register(
-    staticDataRoutes, { prefix: '/api/' }
-);
+app.register(staticDataRoutes, { prefix: '/api/' });
+app.register(mediaLibraryRoutes, { prefix: '/api/' });
 
 export default app;
