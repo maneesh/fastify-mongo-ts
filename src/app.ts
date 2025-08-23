@@ -14,10 +14,10 @@ const app = Fastify({ logger: true ,
 });
 app.register(cors, { origin: true });
 app.register(connectDB);
-app.register(userRoutes);
-app.register(staticDataRoutes);
-app.register(mediaRoutes);
-app.register(cmsStaticContentRoutes);
+app.register(userRoutes,{ prefix: '/api/cms' });
+app.register(staticDataRoutes,{ prefix: '/api/cms' });
+app.register(mediaRoutes, { prefix: '/api/cms' });
+app.register(cmsStaticContentRoutes,{ prefix: '/api/cms' });
 
 // const app = Fastify({ logger: true });
 
@@ -39,12 +39,5 @@ app.register(cmsStaticContentRoutes);
 
 // app.register(cors, { origin: true });
 
-app.register(connectDB);
-app.register(
-    userRoutes, { prefix: '/api/' }
-);
-app.register(
-    staticDataRoutes, { prefix: '/api/' }
-);
 
 export default app;
