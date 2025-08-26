@@ -4,6 +4,9 @@ export interface IMediaItem {
   name: string;
   url: string;
   alt?: string;
+  size?: string;
+  type?: string;
+  dimension?: string;
 }
 
 export interface IMedia extends Document {
@@ -15,6 +18,9 @@ export interface IMedia extends Document {
 const mediaItemSchema = new Schema<IMediaItem>({
   name: { type: String, required: true },
   url: { type: String, required: true },
+  type: { type: String, required: true },
+  size: { type: String, required: true },
+  dimension: { type: String, required: true },
   alt: { type: String }
 }, { _id: false });
 

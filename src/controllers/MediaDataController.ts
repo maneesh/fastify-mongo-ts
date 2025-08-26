@@ -19,6 +19,9 @@ interface CreateMediaBody {
     name: string;
     url: string;
     alt?: string;
+    type: string,
+    size: string,
+    dimension:string,
   };
 }
 
