@@ -1,4 +1,4 @@
-import { FastifyReply, FastifyRequest } from "fastify";
+import { FastifyReply, FastifyRequest, RouteGenericInterface } from "fastify";
 import MediaData, { IMedia } from "../models/MediaData"; // updated schema
 
 // Get all media
@@ -22,6 +22,11 @@ interface CreateMediaBody {
     type: string,
     size: string,
     dimension:string,
+  };
+}
+interface DeleteRequest extends RouteGenericInterface {
+  Params: {
+    id: string;
   };
 }
 
@@ -62,3 +67,22 @@ export const createMedia = async (
     return reply.code(500).send({ error: (error as Error).message });
   }
 };
+
+
+
+// delete page
+export const deleteStaticDataPage = async (req: FastifyRequest<DeleteRequest>, reply: FastifyReply) => {
+  try {
+    const { id } = req.params;
+    const deletedItem = await MediaData.findByIdAndDelete(id);
+
+    if (!deletedItem) {
+      return reply.code(404).send({ error: "Item not found" });
+    }
+
+    reply.send({ message: "Deleted successfully", deletedItem });
+  } catch (error) {
+    console.error("Delete error:", error);
+    reply.code(500).send({ error: "Failed to delete" });
+  }
+}
