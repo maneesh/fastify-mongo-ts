@@ -116,3 +116,82 @@ export const deleteCmsStaticContent = async (
     reply.code(500).send({ error: 'Failed to delete component', details: error });
   }
 };
+
+
+// Get group by domain
+
+
+export const getGroupsByDomain = async (
+  request: FastifyRequest<{ Querystring: { domain: string } }>,
+  reply: FastifyReply
+) => {
+  try {
+    const { domain } = request.query;
+
+    if (!domain) {
+      return reply.code(400).send({ error: "Domain is required" });
+    }
+
+    // Get distinct groups for this domain
+    const groups = await PageComponent.distinct("group", { domain });
+
+    return reply.send(groups);
+  } catch (error) {
+    reply
+      .code(500)
+      .send({ error: "Failed to fetch groups", details: (error as Error).message });
+  }
+};
+
+// Get Components By Domain and Group
+
+export const getComponentsByDomainAndGroup = async (
+  request: FastifyRequest<{ Querystring: { domain: string; group: string } }>,
+  reply: FastifyReply
+) => {
+  try {
+    const { domain, group } = request.query;
+
+    if (!domain || !group) {
+      return reply.code(400).send({ error: "Domain and Group are required" });
+    }
+
+    // Fetch distinct components for this domain & group
+    const components = await PageComponent.distinct("component", { domain, group });
+
+    return reply.send(components);
+  } catch (error) {
+    reply
+      .code(500)
+      .send({ error: "Failed to fetch components", details: (error as Error).message });
+  }
+};
+
+
+// Content By Domain, Group and Component
+
+export const getContentByDomainGroupAndComponent = async(
+  request:FastifyRequest<{Querystring:{domain:string; group:string; component:string}}>,
+  reply:FastifyReply)=>{
+    try{
+      const { domain, group, component } = request.query;
+
+      if (!domain || !group || !component) {
+        return reply.code(400).send({ error: "Domain, Group and Component are required" });
+      }
+
+      // Fetch content for this domain, group & component
+      const page = await PageComponent.findOne({ domain, group, component }).select("contents -_id");
+
+      if (!page) {
+        return reply.code(404).send({ error: "Content not found" });
+      }
+
+      return reply.send(page.contents);
+    } catch (error) {
+      reply
+        .code(500)
+        .send({ error: "Failed to fetch content", details: (error as Error).message });
+    }
+
+  }

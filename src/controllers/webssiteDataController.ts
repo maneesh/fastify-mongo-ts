@@ -1,21 +1,21 @@
-import StaticContent from '../models/StaticData';
+import PageComponentSchema, { IPageComponent } from '../models/CmsStaticContent';     
 import { FastifyRequest, FastifyReply } from "fastify";
-import { IStaticContent } from '../models/StaticData'; // Make sure this import exists
+//import { IStaticContent } from '../models/CmsStaticContent'; // Make sure this import exists
 
 export const getAllWebsiteDetails = async (req: FastifyRequest, reply: FastifyReply) => {
   try {
-    const staticData = await StaticContent.find();
+    const staticData = await PageComponentSchema.find();
 
-    const groupedData: Record<string, { id: string; page: string }[]> = {};
+    const groupedData: Record<string, { id: string; group: string }[]> = {};
 
-    staticData.forEach((item: IStaticContent) => {
+    staticData.forEach((item: IPageComponent) => {
       if (!groupedData[item.domain]) {
         groupedData[item.domain] = [];
       }
 
       groupedData[item.domain].push({
         id: item.id.toString(), 
-        page: item.page,
+        group: item.group||"",
       });
     });
 

@@ -12,7 +12,8 @@ dotenv.config();
 const app = Fastify({ logger: true ,
     pluginTimeout: 10000
 });
-app.register(cors, { origin: true });
+app.register(cors, {origin: true, 
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],});
 app.register(connectDB);
 app.register(userRoutes,{ prefix: '/api/cms' });
 app.register(staticDataRoutes,{ prefix: '/api/cms' });
