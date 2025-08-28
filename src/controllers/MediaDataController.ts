@@ -22,6 +22,7 @@ interface CreateMediaBody {
     type: string,
     size: string,
     dimension:string,
+    fileId:string,
   };
 }
 interface DeleteRequest extends RouteGenericInterface {
@@ -71,9 +72,17 @@ export const createMedia = async (
 
 
 // delete page
-export const deleteStaticDataPage = async (req: FastifyRequest<DeleteRequest>, reply: FastifyReply) => {
+import mongoose from "mongoose";
+
+export const deleteMediaData = async (req: FastifyRequest<DeleteRequest>, reply: FastifyReply) => {
   try {
     const { id } = req.params;
+
+    // Validate ObjectId
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return reply.code(400).send({ error: "Invalid ID format" });
+    }
+
     const deletedItem = await MediaData.findByIdAndDelete(id);
 
     if (!deletedItem) {
@@ -85,4 +94,4 @@ export const deleteStaticDataPage = async (req: FastifyRequest<DeleteRequest>, r
     console.error("Delete error:", error);
     reply.code(500).send({ error: "Failed to delete" });
   }
-}
+};
